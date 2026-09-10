@@ -23,10 +23,10 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease
       - name: Find APK
-        run: find app/build -name "*.apk"
+        run: find app/build -name "*.apk" || echo "No apk found yet"
       - name: Rename APK
         run: |
-          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          APK_PATH=$(find app/build/outputs -name "*.apk" | head -n 1)
           echo "Found: $APK_PATH"
           mv "$APK_PATH" intobeta-live-${{ github.ref_name }}.apk
       - name: Create Release
