@@ -1,6 +1,7 @@
 package com.intobeta.live.ui
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.intobeta.live.R
@@ -19,7 +20,9 @@ class MainActivity: AppCompatActivity(){
     private var allStreams: List<Stream> = emptyList()
     private val prefs by lazy{ getSharedPreferences("intobeta", MODE_PRIVATE) }
     override fun onCreate(savedInstanceState: Bundle?){
-        super.onCreate(savedInstanceState); binding=ActivityMainBinding.inflate(layoutInflater); setContentView(binding.root)
+        super.onCreate(savedInstanceState)
+        binding=ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setOnMenuItemClickListener{
             if(it.itemId==R.id.action_logout){ prefs.edit().clear().apply(); startActivity(Intent(this, LoginActivity::class.java)); finish(); true } else false
@@ -38,14 +41,26 @@ class MainActivity: AppCompatActivity(){
                 val cats=service.getCategories(XtreamUrlBuilder.categoriesUrl(server,user,pass))
                 val streams=service.getStreams(XtreamUrlBuilder.streamsUrl(server,user,pass))
                 allStreams=streams
-                withContext(Dispatchers.Main){ categoryAdapter.submitList(cats); streamAdapter.submitList(streams) }
-            }catch(e:Exception){ e.printStackTrace() }
+                withContext(Dispatchers.Main){
+                    if(cats.isEmpty() && streams.isEmpty()){
+                        Toast.makeText(this@MainActivity,"No data from server",Toast.LENGTH_LONG).show()
+                    }
+                    categoryAdapter.submitList(cats); streamAdapter.submitList(streams)
+                }
+            }catch(e:Exception){
+                e.printStackTrace()
+                withContext(Dispatchers.Main){ Toast.makeText(this@MainActivity,"Load Error: ${e.message}",Toast.LENGTH_LONG).show() }
+            }
         }
     }
-    private fun filterByCategory(id:String){ val f=if(id=="0") allStreams else allStreams.filter{ it.categoryId==id }; streamAdapter.submitList(f) }
+    private fun filterByCategory(id:String){
+        try{ val f=if(id=="0") allStreams else allStreams.filter{ it.categoryId==id }; streamAdapter.submitList(f) }catch(_:Exception){}
+    }
     private fun play(s:Stream){
-        val server=prefs.getString("server","")!!; val user=prefs.getString("username","")!!; val pass=prefs.getString("password","")!!
-        val url=XtreamUrlBuilder.buildLiveUrl(server,user,pass,s.streamId)
-        val i=Intent(this, PlayerActivity::class.java); i.putExtra("url", url); i.putExtra("title", s.name); startActivity(i)
+        try{
+            val server=prefs.getString("server","")!!; val user=prefs.getString("username","")!!; val pass=prefs.getString("password","")!!
+            val url=XtreamUrlBuilder.buildLiveUrl(server,user,pass,s.streamId)
+            val i=Intent(this, PlayerActivity::class.java); i.putExtra("url", url); i.putExtra("title", s.name); startActivity(i)
+        }catch(e:Exception){ Toast.makeText(this,"Play Error: ${e.message}",Toast.LENGTH_SHORT).show() }
     }
 }
