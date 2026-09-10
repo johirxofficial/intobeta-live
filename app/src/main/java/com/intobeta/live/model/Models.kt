@@ -1,8 +1,6 @@
-
 package com.intobeta.live.model
 import com.google.gson.annotations.SerializedName
-data class LoginResponse(@SerializedName("user_info") val userInfo: UserInfo, @SerializedName("server_info") val serverInfo: ServerInfo)
-data class UserInfo(val auth: Int, val status: String, @SerializedName("exp_date") val expDate: String)
-data class ServerInfo(val url: String, val port: String)
-data class Category(@SerializedName("category_id") val categoryId: String, @SerializedName("category_name") val categoryName: String)
-data class LiveStream(@SerializedName("stream_id") val streamId: Int, @SerializedName("name") val name: String, @SerializedName("stream_icon") val icon: String)
+data class Category(@SerializedName("category_id") val categoryId: String, @SerializedName("category_name") val categoryName: String, @SerializedName("parent_id") val parentId: Int)
+data class Stream(@SerializedName("name") val name: String, @SerializedName("stream_id") val streamId: Int, @SerializedName("stream_icon") val streamIcon: String, @SerializedName("category_id") val categoryId: String)
+data class LoginInfo(val user_info: UserInfo)
+data class UserInfo(val auth: Int)
