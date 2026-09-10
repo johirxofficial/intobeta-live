@@ -1,7 +1,10 @@
-.gradle/
-build/
-.idea/
 *.iml
-local.properties
-intobeta-live.zip
-/app/build/
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+app/build

@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
-<com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:title="IntoBeta Live" xmlns:app="http://schemas.android.com/apk/res-auto" app:menu="@menu/main_menu" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-<LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent" android:weightSum="2"><androidx.recyclerview.widget.RecyclerView android:id="@+id/rvCategory" android:layout_weight="0.8" android:layout_width="0dp" android:layout_height="match_parent"/><View android:layout_width="1dp" android:layout_height="match_parent" android:background="#222"/><androidx.recyclerview.widget.RecyclerView android:id="@+id/rvStreams" android:layout_weight="1.2" android:layout_width="0dp" android:layout_height="match_parent"/></LinearLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="IntoBeta Live"
+        android:titleTextColor="@android:color/white"
+        app:menu="@menu/main_menu"
+        app:titleTextColor="@android:color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="#FFFFFF"
+            android:scrollbars="vertical" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#DDDDDD" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStreams"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:background="#FFFFFF"
+            android:scrollbars="vertical" />
+    </LinearLayout>
 </LinearLayout>
