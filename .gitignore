@@ -1,8 +1,6 @@
-venv/
-__pycache__/
-*.pyc
-.env
-db.sqlite3
 .gradle/
 build/
-
+.idea/
+*.iml
+local.properties
+intobeta-live.zip
