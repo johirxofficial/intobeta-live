@@ -7,7 +7,6 @@ import com.intobeta.live.R
 import com.intobeta.live.api.ApiClient
 import com.intobeta.live.api.XtreamUrlBuilder
 import com.intobeta.live.databinding.ActivityMainBinding
-import com.intobeta.live.model.Category
 import com.intobeta.live.model.Stream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +34,9 @@ class MainActivity: AppCompatActivity(){
         val server=prefs.getString("server","")!!; val user=prefs.getString("username","")!!; val pass=prefs.getString("password","")!!
         CoroutineScope(Dispatchers.IO).launch{
             try{
-                val cats=ApiClient.api.getCategories(user,pass)
-                val streams=ApiClient.api.getStreams(user,pass)
+                val service = ApiClient.getService(server)
+                val cats=service.getCategories(XtreamUrlBuilder.categoriesUrl(server,user,pass))
+                val streams=service.getStreams(XtreamUrlBuilder.streamsUrl(server,user,pass))
                 allStreams=streams
                 withContext(Dispatchers.Main){ categoryAdapter.submitList(cats); streamAdapter.submitList(streams) }
             }catch(e:Exception){ e.printStackTrace() }
